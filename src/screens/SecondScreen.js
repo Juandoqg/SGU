@@ -1,14 +1,24 @@
 // src/screens/SecondScreen.js
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import Layout from '../components/Layout';
 
-const SecondScreen = ({ navigation }) => {
+const SecondScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Segunda Pantalla</Text>
-      <Button title="Regresar" onPress={() => navigation.goBack()} />
-    </View>
+    <Layout>
+      <View style={styles.container}>
+        <Text>Pantalla Secundaria</Text>
+      </View>
+    </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default SecondScreen;
