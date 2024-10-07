@@ -1,35 +1,19 @@
-
+// App.js
 import React from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
-import CustomButton from './src/components/customButton';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/HomeScreen';
+import SecondScreen from './src/screens/SecondScreen';
 
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // Función que se ejecuta cuando se presiona el botón
-  const handleButtonPress = () => {
-    Alert.alert('¡Botón presionado!', 'Has presionado el botón.');
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>¡Bienvenido a mi App!</Text>
-
-      {/* Aquí usamos el componente CustomButton */}
-      <CustomButton title="Presiona aquí" onPress={handleButtonPress} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Second" component={SecondScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-// Estilos de la pantalla principal
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-});
