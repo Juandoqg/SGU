@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
-import styles from './HomeScreenStyles'; // Importa los estilos desde el archivo
+import styles from './SignInScreenStyles'; // Importa los estilos desde el archivo
 import appFirebase from '../../credenciales';
 import { getFirestore, getDoc, doc } from 'firebase/firestore'; // Importar funciones de Firestore
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Importar funciones de autenticación

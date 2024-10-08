@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
-import styles from './HomeScreenStyles'; // Reutiliza los mismos estilos
+import styles from './SignInScreenStyles'; // Reutiliza los mismos estilos
 import appFirebase from '../../credenciales';
 import { getFirestore, collection, addDoc , doc, setDoc} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -17,7 +17,7 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(''); // Estado para manejar erroressqSQ
+  const [error, setError] = useState(''); // Estado para manejar errores
 
   const handleSignUp = async () => {
     if (password === confirmPassword) {
@@ -28,8 +28,8 @@ const SignUpScreen = () => {
 
         // Almacenar los datos del usuario en Firestore
         await setDoc(doc(db, 'usuarios', user.uid), {
-          uid :user.uid,
-          name : name,
+          uid : user.uid,
+          name: name,
           document: document,
           email: email
         });
