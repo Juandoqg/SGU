@@ -1,9 +1,12 @@
-// src/screens/SignUpScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import styles from './HomeScreenStyles'; // Reutiliza los mismos estilos
+import appFirebase from '../../credenciales';
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
+const db = getFirestore(appFirebase);
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -12,17 +15,27 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(''); // Estado para manejar errores
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (password === confirmPassword) {
-      console.log('Nombre:', name);
-      console.log('Documento:', document); 
-      console.log('Email:', email);
-      console.log('Password:', password);
-      // Lógica para crear el usuario
-      
+      try {
+        // Crear el usuario en la colección "usuarios"
+        await addDoc(collection(db, 'usuarios'), {
+          name,
+          document,
+          email,
+          password // Considera encriptar la contraseña en una aplicación real
+        });
+
+        console.log('Usuario registrado:', { name, document, email });
+        navigation.navigate('Home'); // Redirigir a la pantalla de inicio después del registro
+      } catch (err) {
+        console.error('Error al registrar el usuario:', err);
+        setError('Error al registrar el usuario. Intenta nuevamente.');
+      }
     } else {
-      console.log('Las contraseñas no coinciden');
+      setError('Las contraseñas no coinciden');
     }
   };
 
@@ -30,6 +43,8 @@ const SignUpScreen = () => {
     <Layout>
       <View style={styles.container}>
         <View style={styles.formContainer}>
+          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+          
           <TextInput
             style={styles.input}
             placeholder="Nombre completo"
