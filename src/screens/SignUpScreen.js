@@ -91,10 +91,11 @@ const SignUpScreen = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#007BFF', marginTop: 10 }]}
+            style={[styles.button, { backgroundColor: '#b424b4', marginTop: 10 }]}
             onPress={() => navigation.goBack()} // Volver al HomeScreen
           >
             <Text style={styles.buttonText}>Volver</Text>
+            
           </TouchableOpacity>
         </View>
       </View>

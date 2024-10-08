@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: '#343a40', // Color de texto gris oscuro
   },
   button: {
-    backgroundColor: '#007bff', // Color del botón
+    backgroundColor: '#b424b4', // Color del botón
     padding: 10,
     margin: 10,
     borderRadius: 5,

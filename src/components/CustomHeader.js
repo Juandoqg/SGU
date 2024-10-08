@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const CustomHeader = () => {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>Mi Aplicación</Text>
+      <Text style={styles.headerText}>Sistema de Gestión Urbana</Text>
     </View>
   );
 };
@@ -13,7 +13,7 @@ const CustomHeader = () => {
 const styles = StyleSheet.create({
   header: {
     height: 60,
-    backgroundColor: '#6200ee',
+    backgroundColor: '#b424b4',
     justifyContent: 'center',
     alignItems: 'center',
   },

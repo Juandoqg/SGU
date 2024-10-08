@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import MainScreen from './src/screens/MainScreen';
-
+import SecondScreen from './src/screens/SecondScreen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -24,6 +24,11 @@ const App = () => {
         <Stack.Screen 
           name="MainScreen" 
           component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="SecondScreen" 
+          component={SecondScreen}
           options={{ headerShown: false }}
         />
         

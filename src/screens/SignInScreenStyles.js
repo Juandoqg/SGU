@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-    backgroundColor: '#007BFF', // Color del botón
+    backgroundColor: '#b424b4', // Color morado del botón
     paddingVertical: 10,
     borderRadius: 5, // Bordes redondeados para los botones
   },
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginTop: 20,
-    color: '#007BFF', // Color azul para el vínculo
+    color: '#b424b4', // Color morado para el vínculo
     textAlign: 'center',
     textDecorationLine: 'underline', // Para que parezca un enlace
   },
