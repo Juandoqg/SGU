@@ -36,10 +36,10 @@ const HomeScreen = () => {
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#28a745' }]} // Segundo botón con un color diferente
-            onPress={() => navigation.navigate('Second')}
+            style={[styles.button, { backgroundColor: '#6c757d', marginTop: 10 }]} // Color gris para diferenciar
+            onPress={() => navigation.navigate('SignUp')} // Navegar a la pantalla de registro
           >
-            <Text style={styles.buttonText}>Ir a Segunda Pantalla</Text>
+            <Text style={styles.buttonText}>Crear usuario</Text>
           </TouchableOpacity>
         </View>
       </View>
