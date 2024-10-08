@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  linkText: {
+    marginTop: 20,
+    color: '#007BFF', // Color azul para el vínculo
+    textAlign: 'center',
+    textDecorationLine: 'underline', // Para que parezca un enlace
+  },
 });
 
 export default styles;

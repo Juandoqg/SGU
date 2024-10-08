@@ -35,11 +35,8 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#6c757d', marginTop: 10 }]} // Color gris para diferenciar
-            onPress={() => navigation.navigate('SignUp')} // Navegar a la pantalla de registro
-          >
-            <Text style={styles.buttonText}>Crear usuario</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.linkText}>¿No tienes cuenta? Crear usuario</Text>
           </TouchableOpacity>
         </View>
       </View>
