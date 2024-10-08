@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import styles from './HomeScreenStyles'; // Importa los estilos desde el archivo
 import appFirebase from '../../credenciales';
-import { getFirestore, getDoc, doc } from "firebase/firestore"; // Importar funciones de Firestore
+import { getFirestore, getDoc, doc } from 'firebase/firestore'; // Importar funciones de Firestore
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Importar funciones de autenticación
 
 const db = getFirestore(appFirebase);
@@ -18,15 +18,27 @@ const HomeScreen = () => {
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log('Usuario autenticado:', email);
-
-      // Redirigir a la pantalla de inicio después de iniciar sesión
+      // Iniciar sesión con email y contraseña
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      console.log('Usuario autenticado:', user.uid); // Muestra el UID del usuario autenticado
+  
+      // Verificar si el usuario existe en Firestore
+      const userDoc = await getDoc(doc(db, 'usuarios', user.uid)); // Asegúrate de que estés usando el UID correcto
+      if (userDoc.exists()) {
+        console.log('Datos del usuario:', userDoc.data());
+        navigation.navigate('MainScreen'); // Cambia 'MainScreen' por la pantalla principal de tu app
+      } else {
+        console.log('No se encontró el documento del usuario en Firestore');
+        setError('No se encontró el usuario en la base de datos.');
+      }
     } catch (err) {
       console.error('Error al iniciar sesión:', err);
       setError('Email o contraseña incorrectos. Intenta nuevamente.'); // Manejar error
     }
   };
+  
 
   return (
     <Layout>
@@ -40,6 +52,7 @@ const HomeScreen = () => {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            autoCapitalize="none" // No capitalizar el email
           />
           <TextInput
             style={styles.input}

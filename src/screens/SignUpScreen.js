@@ -4,8 +4,10 @@ import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import styles from './HomeScreenStyles'; // Reutiliza los mismos estilos
 import appFirebase from '../../credenciales';
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc , doc, setDoc} from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase);
 
 const SignUpScreen = () => {
@@ -20,12 +22,15 @@ const SignUpScreen = () => {
   const handleSignUp = async () => {
     if (password === confirmPassword) {
       try {
-        // Crear el usuario en la colección "usuarios"
-        await addDoc(collection(db, 'usuarios'), {
-          name,
-          document,
-          email,
-          password // Considera encriptar la contraseña en una aplicación real
+        // Crear usuario en Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Almacenar los datos del usuario en Firestore
+        await setDoc(doc(db, 'usuarios', user.uid), {
+          name: name,
+          document: document,
+          email: email
         });
 
         console.log('Usuario registrado:', { name, document, email });
