@@ -1,11 +1,11 @@
-// src/screens/HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import Layout from '../components/Layout'; // Importa el layout
-import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import Layout from '../components/Layout';
+import { useNavigation } from '@react-navigation/native';
+import styles from './HomeScreenStyles'; // Importa los estilos desde el archivo
 
 const HomeScreen = () => {
-  const navigation = useNavigation(); // Obtén la instancia de navegación
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,41 +16,35 @@ const HomeScreen = () => {
 
   return (
     <Layout>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Iniciar sesión" onPress={handleLogin} />
-      <Button 
-        title="Ir a Segunda Pantalla" 
-        onPress={() => navigation.navigate('Second')} // Navega a SecondScreen
-        style={styles.button} 
-      />
+      <View style={styles.container}>
+        <View style={styles.formContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Iniciar sesión</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: '#28a745' }]} // Segundo botón con un color diferente
+            onPress={() => navigation.navigate('Second')}
+          >
+            <Text style={styles.buttonText}>Ir a Segunda Pantalla</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 10,
-  },
-  button: {
-    marginTop: 20,
-  },
-});
 
 export default HomeScreen;
