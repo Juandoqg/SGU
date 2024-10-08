@@ -15,7 +15,7 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(''); // Estado para manejar errores
+  const [error, setError] = useState(''); // Estado para manejar erroressqSQ
 
   const handleSignUp = async () => {
     if (password === confirmPassword) {
