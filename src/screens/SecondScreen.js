@@ -1,12 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const SecondScreen = () => {
+  const navigation = useNavigation();
+
+  const handleLogout = () => {
+    navigation.navigate('MainScreen');
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Sistema de Gestión Urbana</Text>
+
+        {/* Botón de Cerrar Sesión en la parte superior derecha */}
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Tarjeta con scroll en media pantalla */}
@@ -17,7 +29,7 @@ const SecondScreen = () => {
             En esta ventana podrás realizar reportes urbanos. A continuación, puedes ver un listado de opciones o información más detallada.
           </Text>
 
-          {/* Agrega más contenido para demostrar el scroll */}
+          {/* Contenido adicional */}
           <Text style={styles.description}>Opción 1: Detalle de reporte</Text>
           <Text style={styles.description}>Opción 2: Estado de solicitudes</Text>
           <Text style={styles.description}>Opción 3: Mapa interactivo</Text>
@@ -30,6 +42,7 @@ const SecondScreen = () => {
 };
 
 // Obtener las dimensiones de la pantalla
+const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
@@ -43,6 +56,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative', // Para que el botón de cerrar se posicione relativo al header
     elevation: 4, // Sombra para Android
     shadowColor: '#000', // Sombra para iOS
     shadowOffset: { width: 0, height: 2 },
@@ -83,6 +97,22 @@ const styles = StyleSheet.create({
     color: '#777',
     textAlign: 'left',
     marginVertical: 5,
+  },
+  logoutButton: {
+    position: 'absolute',
+    right: 10, // Separación del borde derecho
+    top: 10, // Separación del borde superior
+    backgroundColor: '#b424b4',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 
