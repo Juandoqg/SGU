@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Layout from '../components/Layout';
 import styles from './SecondScreenStyles';
@@ -17,9 +17,6 @@ const SecondScreen = () => {
 
   return (
     <Layout>
-              <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
-        </TouchableOpacity>
       <View style={styles.outerContainer}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.title}>¡Bienvenido!</Text>
@@ -47,12 +44,19 @@ const SecondScreen = () => {
             <TouchableOpacity style={styles.button} onPress={() => handlePress('Información adicional')}>
               <Text style={styles.buttonText}>Opción 5: Información adicional</Text>
             </TouchableOpacity>
+
+            {/* Botón de Cerrar Sesión */}
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: 'red' }]} // Usa el mismo estilo de botón con fondo rojo
+              onPress={handleLogout}
+            >
+              <Text style={styles.buttonText}>Cerrar Sesión</Text> {/* Usa el mismo estilo de texto */}
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
     </Layout>
   );
 };
-
 
 export default SecondScreen;
