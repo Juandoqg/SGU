@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './MainScreenStyles'; // Importa los estilos desde el archivo
-
+import Layout from '../components/Layout';
 const MainScreen = () => {
   const navigation = useNavigation();
 
   return (
+    <Layout>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
 
@@ -31,6 +32,7 @@ const MainScreen = () => {
         
       </View>
     </ScrollView>
+    </Layout>
   );
 };
 
