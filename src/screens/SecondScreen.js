@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,7 +20,20 @@ const SecondScreen = () => {
 
   const handlePressOption = (option) => {
     console.log(option); // Manejar la opción seleccionada
+    if (option === 'Detalle de reporte') {
+      navigation.navigate('DetalleReporteScreen'); // Redirigir a DetalleReporteScreen
+    }
+    if (option === 'Estado de solicitudes') {
+      navigation.navigate('EstadoSolicitudesScreen'); // Redirigir a DetalleReporteScreen
+    }
+    if (option === 'Mapa interactivo') {
+      navigation.navigate('MapaInteractivoScreen'); // Redirigir a DetalleReporteScreen
+    }
+    if (option === 'Contacto con administracion') {
+      navigation.navigate('ContactoAdminScreen'); // Redirigir a DetalleReporteScreen
+    }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -46,7 +59,7 @@ const SecondScreen = () => {
 
           {/* Botones para las opciones */}
           <View style={styles.buttonContainer}>
-            {['Detalle de reporte', 'Estado de solicitudes', 'Mapa interactivo', 'Contacto con administración', 'Información adicional'].map((option, index) => (
+            {['Detalle de reporte', 'Estado de solicitudes', 'Mapa interactivo', 'Contacto con administracion', 'Información adicional'].map((option, index) => (
               <TouchableOpacity
                 key={index}
                 style={styles.optionButton}
@@ -59,8 +72,6 @@ const SecondScreen = () => {
           </View>
         </View>
       </ScrollView>
-
-
     </View>
   );
 };

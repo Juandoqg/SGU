@@ -5,6 +5,10 @@ import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import MainScreen from './src/screens/MainScreen';
 import SecondScreen from './src/screens/SecondScreen';
+import DetalleReporteScreen from './src/screens/DetalleReporteScreen';
+import EstadoSolicitudesScreen from './src/screens/EstadosSolicitudesScreen';
+import MapaInteractivoScreen from './src/screens/MapaInteractivoScreen';
+import ContactoAdminScreen from './src/screens/ContactoAdminScreen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -29,6 +33,26 @@ const App = () => {
         <Stack.Screen 
           name="SecondScreen" 
           component={SecondScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="DetalleReporteScreen" 
+          component={DetalleReporteScreen}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen 
+          name="EstadoSolicitudesScreen" 
+          component={EstadoSolicitudesScreen}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen 
+          name="MapaInteractivoScreen" 
+          component={MapaInteractivoScreen}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen 
+          name="ContactoAdminScreen" 
+          component={ContactoAdminScreen}
           options={{ headerShown: false }}
         />
         
