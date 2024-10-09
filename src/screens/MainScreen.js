@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Layout from '../components/Layout';
 
 const MainScreen = () => {
   const navigation = useNavigation();
 
   return (
+    <Layout>
     <View style={styles.container}>
       <Text style={styles.text}>¡Bienvenido a la pantalla principal!</Text>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
@@ -15,6 +17,7 @@ const MainScreen = () => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
+    </Layout>
   );
 };
 
