@@ -35,7 +35,7 @@ const SignUpScreen = () => {
         });
 
         console.log('Usuario registrado:', { name, document, email });
-        navigation.navigate('Home'); // Redirigir a la pantalla de inicio después del registro
+        navigation.navigate('SignIn'); // Redirigir a la pantalla de inicio después del registro
       } catch (err) {
         console.error('Error al registrar el usuario:', err);
         setError('Error al registrar el usuario. Intenta nuevamente.');
