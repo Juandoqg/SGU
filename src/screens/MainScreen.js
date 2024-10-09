@@ -1,47 +1,37 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Layout from '../components/Layout';
+import styles from './MainScreenStyles'; // Importa los estilos desde el archivo
 
 const MainScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <Layout>
-    <View style={styles.container}>
-      <Text style={styles.text}>¡Bienvenido a la pantalla principal!</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.buttonText}>Registrar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-    </View>
-    </Layout>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+
+        {/* Main Section */}
+        <View style={styles.mainSection}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Somos SGU</Text>
+            <Text style={styles.subtitle}>Sistema de Gestión Urbana</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.buttonIngresar} onPress={() => navigation.navigate('SignIn')}>
+              <Text style={styles.buttonTextIngresar}>Ingresar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonRegistrar} onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.buttonTextRegistrar}>Registrarse</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+
+
+        
+      </View>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa', // Fondo gris claro
-  },
-  text: {
-    fontSize: 24,
-    color: '#343a40', // Color de texto gris oscuro
-  },
-  button: {
-    backgroundColor: '#b424b4', // Color del botón
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#fff', // Color del texto del botón
-    fontSize: 18,
-  },
-});
 
 export default MainScreen;
