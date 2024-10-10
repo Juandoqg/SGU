@@ -5,10 +5,12 @@ import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import MainScreen from './src/screens/MainScreen';
 import SecondScreen from './src/screens/SecondScreen';
-import DetalleReporteScreen from './src/screens/DetalleReporteScreen';
-import EstadoSolicitudesScreen from './src/screens/EstadosSolicitudesScreen';
-import MapaInteractivoScreen from './src/screens/MapaInteractivoScreen';
-import ContactoAdminScreen from './src/screens/ContactoAdminScreen';
+import PerfilScreen from './src/screens/PerfilScreen';
+import EstadoReporteScreen from './src/screens/EstadoReporteScreen';
+import ReportarScreen from './src/screens/ReportarScreen';
+
+
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -36,25 +38,21 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen 
-          name="DetalleReporteScreen" 
-          component={DetalleReporteScreen}
+          name="PerfilScreen" 
+          component={PerfilScreen}
           options={{ headerShown: false }}
         />
          <Stack.Screen 
-          name="EstadoSolicitudesScreen" 
-          component={EstadoSolicitudesScreen}
+          name="ReportarScreen" 
+          component={ReportarScreen}
           options={{ headerShown: false }}
         />
           <Stack.Screen 
-          name="MapaInteractivoScreen" 
-          component={MapaInteractivoScreen}
+          name="EstadoReporteScreen" 
+          component={EstadoReporteScreen}
           options={{ headerShown: false }}
         />
-          <Stack.Screen 
-          name="ContactoAdminScreen" 
-          component={ContactoAdminScreen}
-          options={{ headerShown: false }}
-        />
+        
          
       </Stack.Navigator>
     </NavigationContainer>
