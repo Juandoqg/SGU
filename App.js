@@ -9,6 +9,7 @@ import DetalleReporteScreen from './src/screens/DetalleReporteScreen';
 import EstadoSolicitudesScreen from './src/screens/EstadosSolicitudesScreen';
 import MapaInteractivoScreen from './src/screens/MapaInteractivoScreen';
 import ContactoAdminScreen from './src/screens/ContactoAdminScreen';
+import InfoAdicionalScreen from './src/screens/InfoAdicionalScreen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -55,6 +56,13 @@ const App = () => {
           component={ContactoAdminScreen}
           options={{ headerShown: false }}
         />
+      
+          <Stack.Screen 
+          name="InfoAdicionalScreen" 
+          component={InfoAdicionalScreen}
+          options={{ headerShown: false }}
+        />
+        
          
       </Stack.Navigator>
     </NavigationContainer>
