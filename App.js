@@ -8,9 +8,7 @@ import SecondScreen from './src/screens/SecondScreen';
 import PerfilScreen from './src/screens/PerfilScreen';
 import EstadoReporteScreen from './src/screens/EstadoReporteScreen';
 import ReportarScreen from './src/screens/ReportarScreen';
-
-
-
+import InfoAdicionalScreen from './src/screens/InfoAdicionalScreen';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -52,7 +50,12 @@ const App = () => {
           component={EstadoReporteScreen}
           options={{ headerShown: false }}
         />
-        
+         <Stack.Screen 
+          name="InfoAdicionalScreen" 
+          component={InfoAdicionalScreen}
+          options={{ headerShown: false }}
+        />
+         
          
       </Stack.Navigator>
     </NavigationContainer>
