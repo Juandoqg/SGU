@@ -1,24 +1,15 @@
-import React, { useState } from 'react'; 
-import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+import React from 'react'; 
+import { View, Text,  ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './SecondScreenStyles';
 
 const SecondScreen = () => {
 
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del modal
-
   const handleLogout = () => {
     navigation.navigate('MainScreen');
   };
 
-  const handleAddReport = () => {
-    setModalVisible(true); // Mostrar el modal
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false); // Cerrar el modal
-  };
 
   const handlePressOption = (option) => {
     console.log(option); // Manejar la opción seleccionada
@@ -47,7 +38,7 @@ const SecondScreen = () => {
         {/* Botón de Cerrar Sesión */}
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+            <Text style={styles.logoutButtonText}>Cerrar sesión</Text>
           </TouchableOpacity>
         </View>
       </View>
