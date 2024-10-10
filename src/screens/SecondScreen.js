@@ -47,7 +47,7 @@ const SecondScreen = () => {
             <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> 
 
       {/* Tarjeta con scroll que ocupa toda la pantalla menos el header */}
       <ScrollView contentContainerStyle={styles.scrollContent}>

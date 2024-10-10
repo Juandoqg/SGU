@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const ContactoAdminScreen = () => {
   const navigation = useNavigation();
 
-  const handleBack = () => {
+  const handleBack = () => { 
     navigation.goBack(); // Volver a la pantalla anterior
   };
 

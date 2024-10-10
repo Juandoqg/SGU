@@ -55,7 +55,7 @@ const App = () => {
           component={ContactoAdminScreen}
           options={{ headerShown: false }}
         />
-        
+         
       </Stack.Navigator>
     </NavigationContainer>
   );

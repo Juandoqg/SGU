@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const MapaInteractivoScreen = () => {
+const MapaInteractivoScreen = () => { 
   const navigation = useNavigation();
 
   const handleBack = () => {
