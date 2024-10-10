@@ -31,7 +31,7 @@ const SecondScreen = () => {
     if (option === 'Estado del reporte') {
       navigation.navigate('EstadoReporteScreen'); // Redirigir a DetalleReporteScreen
     }
-    if (option === 'Informacion adicional') {
+    if (option === 'Info') {
       navigation.navigate('InfoAdicionalScreen'); // Redirigir a DetalleReporteScreen
     }
    
@@ -62,7 +62,7 @@ const SecondScreen = () => {
 
           {/* Botones para las opciones */}
           <View style={styles.buttonContainer}>
-            {['Perfil', 'Reportar', 'Estado del reporte', 'Información adicional'].map((option, index) => (
+            {['Perfil', 'Reportar', 'Estado del reporte', 'Info'].map((option, index) => (
               <TouchableOpacity
                 key={index}
                 style={styles.optionButton}
