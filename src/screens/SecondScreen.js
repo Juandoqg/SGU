@@ -32,6 +32,9 @@ const SecondScreen = () => {
     if (option === 'Contacto con administracion') {
       navigation.navigate('ContactoAdminScreen'); // Redirigir a DetalleReporteScreen
     }
+    if (option === 'Informacion adicional') {
+      navigation.navigate('InfoAdicionalScreen'); // Redirigir a DetalleReporteScreen
+    }
   };
   
 
@@ -47,7 +50,7 @@ const SecondScreen = () => {
             <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
-      </View> 
+      </View>
 
       {/* Tarjeta con scroll que ocupa toda la pantalla menos el header */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -59,7 +62,7 @@ const SecondScreen = () => {
 
           {/* Botones para las opciones */}
           <View style={styles.buttonContainer}>
-            {['Detalle de reporte', 'Estado de solicitudes', 'Mapa interactivo', 'Contacto con administracion', 'Información adicional'].map((option, index) => (
+            {['Detalle de reporte', 'Estado de solicitudes', 'Mapa interactivo', 'Contacto con administracion', 'Informacion adicional'].map((option, index) => (
               <TouchableOpacity
                 key={index}
                 style={styles.optionButton}
