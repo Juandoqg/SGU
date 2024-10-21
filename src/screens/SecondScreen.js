@@ -66,7 +66,7 @@ const SecondScreen = () => {
         <Text style={styles.headerText}>Sistema de Gestión Urbana</Text>
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Cerrar sesión</Text>
+            <Icon name="sign-out" size={20} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
