@@ -1,6 +1,7 @@
-import React from 'react'; 
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './SecondScreenStyles';
 
 const SecondScreen = () => {
@@ -10,24 +11,53 @@ const SecondScreen = () => {
     navigation.navigate('MainScreen');
   };
 
-  const handlePressOption = (option) => {
-    console.log(option);
-    const screenMapping = {
-      'Perfil': 'PerfilScreen',
-      'Reportar': 'ReportarScreen',
-      'Estado del reporte': 'EstadoReporteScreen',
-      'Info': 'InfoAdicionalScreen'
-    };
-    navigation.navigate(screenMapping[option]);
+  const handlePressOption = (screen) => {
+    navigation.navigate(screen);
   };
 
-  // Asegúrate de usar 'require' para las imágenes locales
-  const options = [
-    { option: 'Perfil', image: require('../../assets/favicon.png') },
-    { option: 'Reportar', image: require('../../assets/favicon.png') },
-    { option: 'Estado del reporte', image: require('../../assets/favicon.png') },
-    { option: 'Info', image: require('../../assets/favicon.png') },
-  ];
+  const PerfilCard = () => (
+    <View style={styles.card}>
+      <Icon name="user" size={30} color="#000" style={styles.cardIcon} />
+      <Text style={styles.cardTitle}>Perfil</Text>
+      <Text style={styles.cardText}>Gestiona tu perfil personal aquí.</Text>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('PerfilScreen')}>
+        <Text style={styles.cardButtonText}>Seleccionar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const ReportarCard = () => (
+    <View style={styles.card}>
+      <Icon name="exclamation-circle" size={30} color="#000" style={styles.cardIcon} />
+      <Text style={styles.cardTitle}>Reportar</Text>
+      <Text style={styles.cardText}>Reporta un problema urbano aquí.</Text>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('ReportarScreen')}>
+        <Text style={styles.cardButtonText}>Seleccionar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const EstadoReporteCard = () => (
+    <View style={styles.card}>
+      <Icon name="clipboard" size={30} color="#000" style={styles.cardIcon} />
+      <Text style={styles.cardTitle}>Estado del Reporte</Text>
+      <Text style={styles.cardText}>Consulta el estado de tus reportes.</Text>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('EstadoReporteScreen')}>
+        <Text style={styles.cardButtonText}>Seleccionar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const InfoCard = () => (
+    <View style={styles.card}>
+      <Icon name="info-circle" size={30} color="#000" style={styles.cardIcon} />
+      <Text style={styles.cardTitle}>Info</Text>
+      <Text style={styles.cardText}>Información adicional sobre el sistema.</Text>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('InfoScreen')}>
+        <Text style={styles.cardButtonText}>Seleccionar</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -51,19 +81,10 @@ const SecondScreen = () => {
 
           {/* Cards */}
           <View style={styles.cardContainer}>
-            {options.map((item, index) => (
-              <View key={index} style={styles.card}>
-                <Image source={item.image} style={styles.cardImage} />
-                <Text style={styles.cardTitle}>{item.option}</Text>
-                <Text style={styles.cardText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-                <TouchableOpacity
-                  style={styles.cardButton}
-                  onPress={() => handlePressOption(item.option)}
-                >
-                  <Text style={styles.cardButtonText}>Seleccionar</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
+            <PerfilCard />
+            <ReportarCard />
+            <EstadoReporteCard />
+            <InfoCard />
           </View>
         </View>
       </ScrollView>
@@ -72,4 +93,3 @@ const SecondScreen = () => {
 };
 
 export default SecondScreen;
-
