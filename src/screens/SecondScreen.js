@@ -3,13 +3,25 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './SecondScreenStyles';
+import appFirebase from '../../credenciales';
+
+import { getAuth } from 'firebase/auth'; // Importar funciones de autenticación
+import { signOut} from 'firebase/auth';
+
+const auth = getAuth(appFirebase);
 
 const SecondScreen = () => {
   const navigation = useNavigation();
 
-  const handleLogout = () => {
-    navigation.navigate('MainScreen');
-  };
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('Has cerrado sesión con éxito');
+      navigation.navigate('MainScreen')
+    } catch (error) {
+      console.log('Error', error.message);
+    };
+  }
 
   const handlePressOption = (screen) => {
     navigation.navigate(screen);
@@ -65,7 +77,7 @@ const SecondScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Sistema de Gestión Urbana</Text>
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleSignOut}>
             <Icon name="sign-out" size={20} color="#000" />
           </TouchableOpacity>
         </View>

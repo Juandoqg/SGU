@@ -28,7 +28,7 @@ const HomeScreen = () => {
       const userDoc = await getDoc(doc(db, 'usuarios', user.uid)); // Asegúrate de que estés usando el UID correcto
       if (userDoc.exists()) {
         console.log('Datos del usuario:', userDoc.data());
-        navigation.navigate('SecondScreen'); // Cambia 'MainScreen' por la pantalla principal de tu app
+        navigation.navigate('SecondScreen'); 
       } else {
         console.log('No se encontró el documento del usuario en Firestore');
         setError('No se encontró el usuario en la base de datos.');
@@ -44,14 +44,14 @@ const HomeScreen = () => {
     <Layout>
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null} {/* Mostrar mensaje de error */}
+         
           
           <TextInput
             style={styles.input}
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
-            keyboardType="email-address"
+            inputMode="email-address"
             autoCapitalize="none" // No capitalizar el email
           />
           <TextInput
@@ -61,6 +61,7 @@ const HomeScreen = () => {
             onChangeText={setPassword}
             secureTextEntry
           />
+           {error ? <Text style={{ color: 'red' }}>{error}</Text> : null} {/* Mostrar mensaje de error */}
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
