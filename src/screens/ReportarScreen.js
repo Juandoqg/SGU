@@ -150,6 +150,7 @@ const ReportarScreen = () => {
             placeholder="Descripción del incidente"
             value={descripcion}
             onChangeText={setDescripcion}
+            multiline={true} // Permite que el texto se expanda verticalmente
           />
 
           {/* Botones alineados horizontalmente */}

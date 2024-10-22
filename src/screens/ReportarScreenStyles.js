@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     fontSize: 16,
     marginBottom: 15,
+    width: '100%', // Asegura que el input ocupe todo el ancho disponible
   },
   label: {
     fontSize: 16,

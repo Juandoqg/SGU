@@ -44,8 +44,6 @@ const HomeScreen = () => {
     <Layout>
       <View style={styles.container}>
         <View style={styles.formContainer}>
-         
-          
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -53,6 +51,7 @@ const HomeScreen = () => {
             onChangeText={setEmail}
             inputMode="email-address"
             autoCapitalize="none" // No capitalizar el email
+            onSubmitEditing={() => handleLogin()} // Iniciar sesión al presionar Enter
           />
           <TextInput
             style={styles.input}
@@ -60,8 +59,9 @@ const HomeScreen = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            onSubmitEditing={() => handleLogin()} // Iniciar sesión al presionar Enter
           />
-           {error ? <Text style={{ color: 'red' }}>{error}</Text> : null} {/* Mostrar mensaje de error */}
+          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null} {/* Mostrar mensaje de error */}
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
