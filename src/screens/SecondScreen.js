@@ -24,8 +24,8 @@ const SecondScreen = ({route}) => {
     };
   }
 
-  const handlePressOption = (screen) => {
-    navigation.navigate(screen);
+  const handlePressOption = (screen, params) => {
+    navigation.navigate(screen, params);
   };
 
   const PerfilCard = () => (
@@ -33,7 +33,7 @@ const SecondScreen = ({route}) => {
       <Icon name="user" size={30} color="#000" style={styles.cardIcon} />
       <Text style={styles.cardTitle}>Perfil</Text>
       <Text style={styles.cardText}>Gestiona tu perfil personal aquí.</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('PerfilScreen')}>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('PerfilScreen' , {userData})}>
         <Text style={styles.cardButtonText}>Seleccionar</Text>
       </TouchableOpacity>
     </View>
@@ -44,7 +44,7 @@ const SecondScreen = ({route}) => {
       <Icon name="exclamation-circle" size={30} color="#000" style={styles.cardIcon} />
       <Text style={styles.cardTitle}>Reportar</Text>
       <Text style={styles.cardText}>Reporta un problema urbano aquí.</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('ReportarScreen')}>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('ReportarScreen', {userData})}>
         <Text style={styles.cardButtonText}>Seleccionar</Text>
       </TouchableOpacity>
     </View>
@@ -55,7 +55,7 @@ const SecondScreen = ({route}) => {
       <Icon name="clipboard" size={30} color="#000" style={styles.cardIcon} />
       <Text style={styles.cardTitle}>Estado del Reporte</Text>
       <Text style={styles.cardText}>Consulta el estado de tus reportes.</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('EstadoReporteScreen')}>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('EstadoReporteScreen' , {userData})}>
         <Text style={styles.cardButtonText}>Seleccionar</Text>
       </TouchableOpacity>
     </View>
@@ -66,7 +66,7 @@ const SecondScreen = ({route}) => {
       <Icon name="info-circle" size={30} color="#000" style={styles.cardIcon} />
       <Text style={styles.cardTitle}>Info</Text>
       <Text style={styles.cardText}>Información adicional sobre el sistema.</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('InfoScreen')}>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('InfoScreen', {userData})}>
         <Text style={styles.cardButtonText}>Seleccionar</Text>
       </TouchableOpacity>
     </View>

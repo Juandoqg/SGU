@@ -4,12 +4,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import styles from './PerfilScreenStyles';
 
-const PerfilScreen = () => {
+const PerfilScreen = ({route}) => {
   const navigation = useNavigation();
-
-  const [name, setName] = useState('Juan Pérez');
-  const [email, setEmail] = useState('juan.perez@example.com');
-  const [phone, setPhone] = useState('+34 600 123 456');
+  const {userData} = route.params
+  const [name, setName] = useState(userData.displayName);
+  const [email, setEmail] = useState(userData.email);
+  const [phone, setPhone] = useState(userData.uid);
   const [isEditing, setIsEditing] = useState(false); // Estado para controlar la ventana flotante
 
   const handleBack = () => {
@@ -43,7 +43,7 @@ const PerfilScreen = () => {
       {/* Detalles del perfil */}
       <View style={styles.detailsCard}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Nombre:</Text>
+          <Text style={styles.label}>Nombre: </Text>
           <TextInput
             style={styles.input}
             value={name}
