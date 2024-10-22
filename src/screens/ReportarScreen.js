@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-
+import { getAuth} from 'firebase/auth'; // Importar funciones de autenticación
 // Configuración de Firestore
 const db = getFirestore(appFirebase);
+
+const auth = getAuth(appFirebase);
 
 // Estilos del mapa
 const containerStyle = {

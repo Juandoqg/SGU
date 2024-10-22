@@ -28,7 +28,10 @@ const HomeScreen = () => {
       const userDoc = await getDoc(doc(db, 'usuarios', user.uid)); // Asegúrate de que estés usando el UID correcto
       if (userDoc.exists()) {
         console.log('Datos del usuario:', userDoc.data());
-        navigation.navigate('SecondScreen'); 
+
+  
+        const userData = userDoc.data()
+        navigation.navigate('SecondScreen', { userData });
       } else {
         console.log('No se encontró el documento del usuario en Firestore');
         setError('No se encontró el usuario en la base de datos.');

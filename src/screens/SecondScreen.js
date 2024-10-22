@@ -10,9 +10,10 @@ import { signOut} from 'firebase/auth';
 
 const auth = getAuth(appFirebase);
 
-const SecondScreen = () => {
+const SecondScreen = ({route}) => {
   const navigation = useNavigation();
-
+  const { userData } = route.params
+  
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -86,7 +87,7 @@ const SecondScreen = () => {
       {/* ScrollView con Cards */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.scrollContainer}>
-          <Text style={styles.title}>¡Bienvenido!</Text>
+          <Text style={styles.title}>¡Bienvenido! {userData.displayName}</Text>
           <Text style={styles.description}>
             En esta ventana podrás realizar reportes urbanos. A continuación, puedes ver un listado de opciones o información más detallada.
           </Text>
