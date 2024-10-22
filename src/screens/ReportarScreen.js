@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Picker, StyleSheet } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Picker } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import styles from './ReportarScreenStyles'; // Importamos los estilos
+
 import { getAuth} from 'firebase/auth'; // Importar funciones de autenticación
 // Configuración de Firestore
 const db = getFirestore(appFirebase);
@@ -14,20 +16,20 @@ const auth = getAuth(appFirebase);
 // Estilos del mapa
 const containerStyle = {
   width: '100%',
-  height: 400,
+  height: 500, // Aumenta la altura del mapa
 };
 
-// Coordenadas de Buga, Valle del Cauca
+// Coordenadas iniciales de Buga, Valle del Cauca
 const center = {
-  lat: 3.9015, // Buga, Valle del Cauca
-  lng: -76.1861,
+  lat: 3.90223,
+  lng: -76.29731,
 };
 
 const ReportarScreen = () => {
   const navigation = useNavigation();
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [tipo, setTipo] = useState('');
-  const [fechaString, setFechaString] = useState(new Date().toLocaleDateString('es-CO')); // Fecha actual
+  const [fechaString, setFechaString] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [error, setError] = useState('');
 
@@ -37,6 +39,25 @@ const ReportarScreen = () => {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
     });
+  };
+
+  // Obtener la ubicación del usuario usando la API de geolocalización del navegador
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setSelectedPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          setError('No se pudo obtener la ubicación. Verifica los permisos.');
+        }
+      );
+    } else {
+      setError('La geolocalización no es compatible con este navegador.');
+    }
   };
 
   // Enviar el reporte a Firestore
@@ -62,40 +83,58 @@ const ReportarScreen = () => {
     }
   };
 
+  // Obtener la fecha actual en formato dd/mm/yyyy
+  const obtenerFechaActual = () => {
+    const currentDate = new Date();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Los meses son de 0-11
+    const year = currentDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Actualizar la fecha al renderizar la pantalla
+  React.useEffect(() => {
+    setFechaString(obtenerFechaActual());
+  }, []);
+
   return (
     <Layout>
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-          <Text>Tipo de incidente:</Text>
-          <Picker
-            selectedValue={tipo}
-            style={styles.input}
-            onValueChange={(itemValue) => setTipo(itemValue)}
-          >
-            <Picker.Item label="Seleccionar tipo" value="" />
-            <Picker.Item label="Infraestructura" value="Infraestructura" />
-            <Picker.Item label="Seguridad" value="Seguridad" />
-            <Picker.Item label="Tráfico" value="Tráfico" />
-            <Picker.Item label="Basura" value="Basura" />
-            <Picker.Item label="Vandalismo" value="Vandalismo" />
-          </Picker>
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <Text style={styles.label}>Tipo de incidente:</Text>
+              <Picker
+                selectedValue={tipo}
+                style={styles.input}
+                onValueChange={(itemValue) => setTipo(itemValue)}
+              >
+                <Picker.Item label="Seleccionar tipo" value="" />
+                <Picker.Item label="Infraestructura" value="Infraestructura" />
+                <Picker.Item label="Seguridad" value="Seguridad" />
+                <Picker.Item label="Tráfico" value="Tráfico" />
+                <Picker.Item label="Basura" value="Basura" />
+                <Picker.Item label="Vandalismo" value="Vandalismo" />
+              </Picker>
+            </View>
 
-          <Text>Fecha: {fechaString}</Text> {/* Mostrar la fecha actual */}
-
-          <TextInput
-            style={styles.input}
-            placeholder="Descripción del incidente"
-            value={descripcion}
-            onChangeText={setDescripcion}
-          />
+            <View style={styles.column}>
+              <Text style={styles.label}>Fecha:</Text>
+              <TextInput
+                style={styles.input}
+                value={fechaString}
+                editable={false}
+              />
+            </View>
+          </View>
 
           {/* Mapa para seleccionar la ubicación */}
           <LoadScript googleMapsApiKey="AIzaSyCnbFMm2M_fYhtAM0YfsQh4p0AKs_Z0LRs">
             <GoogleMap
               mapContainerStyle={containerStyle}
-              center={center} // Usar coordenadas de Buga
+              center={selectedPosition || center}
               zoom={12}
               onClick={onMapClick}
             >
@@ -104,17 +143,32 @@ const ReportarScreen = () => {
           </LoadScript>
 
           {selectedPosition ? (
-            <Text>Ubicación seleccionada: {`Lat: ${selectedPosition.lat}, Lng: ${selectedPosition.lng}`}</Text>
+            <Text style={{ marginBottom: 15 }}>Ubicación seleccionada: {`Lat: ${selectedPosition.lat}, Lng: ${selectedPosition.lng}`}</Text>
           ) : (
-            <Text>Haz clic en el mapa para seleccionar una ubicación.</Text>
+            <Text style={{ marginBottom: 15 }}>Haz clic en el mapa para seleccionar una ubicación.</Text>
           )}
 
-          <TouchableOpacity style={styles.button} onPress={handleReportar}>
-            <Text style={styles.buttonText}>Enviar Reporte</Text>
-          </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Descripción del incidente"
+            value={descripcion}
+            onChangeText={setDescripcion}
+            multiline={true} // Permite que el texto se expanda verticalmente
+          />
+
+          {/* Botones alineados horizontalmente */}
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.smallButton} onPress={getUserLocation}>
+              <Text style={styles.buttonText}>Usar mi ubicación</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.smallButton} onPress={handleReportar}>
+              <Text style={styles.buttonText}>Enviar Reporte</Text>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#b424b4', marginTop: 10 }]}
+            style={styles.secondaryButton}
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.buttonText}>Volver</Text>
@@ -124,34 +178,5 @@ const ReportarScreen = () => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  formContainer: {
-    flex: 1,
-  },
-  input: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-});
 
 export default ReportarScreen;
