@@ -1,29 +1,73 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import appFirebase from '../../credenciales';
 import styles from './EstadoReporteScreenStyles';
 
-const EstadoReporteScreen = () => {
-  const navigation = useNavigation();
+const EstadoReporteScreen = ({ route }) => {
+  const { userData } = route.params;
+  const [reportes, setReportes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const handleBack = () => { 
-    navigation.goBack(); // Volver a la pantalla anterior
+  const getReportesDeUsuario = async (uid) => {
+    const db = getFirestore(appFirebase);
+    const reportesRef = collection(db, 'reportes');
+    const q = query(reportesRef, where("uid", "==", uid));
+
+    try {
+      const querySnapshot = await getDocs(q);
+      const reportes = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return reportes;
+    } catch (error) {
+      console.error("Error al obtener los reportes:", error);
+      throw error;
+    }
   };
+
+  useEffect(() => {
+    const fetchReportes = async () => {
+      setLoading(true);
+      try {
+        const reportesUsuario = await getReportesDeUsuario(userData.uid);
+        setReportes(reportesUsuario);
+      } catch (err) {
+        setError('No se pudieron cargar los reportes.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReportes();
+  }, [userData.uid]);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#6200ea" style={styles.loading} />;
+  }
+
+  if (error) {
+    return <Text style={styles.errorText}>{error}</Text>;
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Estado de reportes</Text>
-      <Text style={styles.description}>
-        Aquí se mostrará el  estado de reportes
-      </Text>
-
-      {/* Agrega más contenido aquí según sea necesario */}
-      <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-        <Text style={styles.backButtonText}>Volver</Text>
-      </TouchableOpacity>
+      <FlatList
+        data={reportes}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.tipo}>{item.tipo}</Text>
+            <Text style={styles.descripcion}>{item.descripcion}</Text>
+            <Text style={styles.fecha}>{item.fecha}</Text>
+            <Text style={styles.ubicacion}>
+              {`Ubicación: Lat ${item.direccion.lat}, Lng ${item.direccion.lng}`}
+            </Text>
+          </View>
+        )}
+        contentContainerStyle={styles.list}
+      />
     </View>
   );
 };
-
 
 export default EstadoReporteScreen;
