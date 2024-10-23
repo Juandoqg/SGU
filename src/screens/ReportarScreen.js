@@ -25,7 +25,9 @@ const center = {
   lng: -76.29731,
 };
 
-const ReportarScreen = () => {
+const ReportarScreen = ({route}) => {
+
+  const {userData} = route.params
   const navigation = useNavigation();
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [tipo, setTipo] = useState('');
@@ -66,6 +68,10 @@ const ReportarScreen = () => {
       try {
         // Almacenar el reporte en Firestore
         await addDoc(collection(db, 'reportes'), {
+          uid : userData.uid,
+          displayName: userData.displayName,
+          document: userData.document,
+          email: userData.email,
           tipo: tipo,
           fecha: fechaString,
           descripcion: descripcion,
@@ -92,7 +98,7 @@ const ReportarScreen = () => {
     return `${day}/${month}/${year}`;
   };
 
-  // Actualizar la fecha al renderizar la pantalla
+  
   React.useEffect(() => {
     setFechaString(obtenerFechaActual());
   }, []);
