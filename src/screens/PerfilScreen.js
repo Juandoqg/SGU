@@ -9,7 +9,7 @@ const PerfilScreen = ({route}) => {
   const {userData} = route.params
   const [name, setName] = useState(userData.displayName);
   const [email, setEmail] = useState(userData.email);
-  const [phone, setPhone] = useState(userData.uid);
+  const [document, setDocument] = useState(userData.document);
   const [isEditing, setIsEditing] = useState(false); // Estado para controlar la ventana flotante
 
   const handleBack = () => {
@@ -63,11 +63,11 @@ const PerfilScreen = ({route}) => {
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Teléfono:</Text>
+          <Text style={styles.label}>Documento:</Text>
           <TextInput
             style={styles.input}
-            value={phone}
-            onChangeText={setPhone}
+            value={document}
+            onChangeText={setDocument}
             editable={false}
           />
         </View>
@@ -112,11 +112,11 @@ const PerfilScreen = ({route}) => {
             </View>
 
             <View style={styles.inputGroup}>
-              <Text style={styles.label}>Teléfono:</Text>
+              <Text style={styles.label}>Documento:</Text>
               <TextInput
                 style={styles.input}
-                value={phone}
-                onChangeText={setPhone}
+                value={document}
+                onChangeText={setDocument}
               />
             </View>
 

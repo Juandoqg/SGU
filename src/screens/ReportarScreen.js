@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Picker , Alert ,Platform } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';
@@ -7,11 +7,9 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import styles from './ReportarScreenStyles'; // Importamos los estilos
 
-import { getAuth} from 'firebase/auth'; // Importar funciones de autenticación
+
 // Configuración de Firestore
 const db = getFirestore(appFirebase);
-
-const auth = getAuth(appFirebase);
 
 // Estilos del mapa
 const containerStyle = {
@@ -62,13 +60,12 @@ const ReportarScreen = ({route}) => {
     }
   };
 
-  // Enviar el reporte a Firestore
   const handleReportar = async () => {
     if (tipo && fechaString && descripcion && selectedPosition) {
       try {
         // Almacenar el reporte en Firestore
         await addDoc(collection(db, 'reportes'), {
-          uid : userData.uid,
+          uid: userData.uid,
           displayName: userData.displayName,
           document: userData.document,
           email: userData.email,
@@ -77,9 +74,23 @@ const ReportarScreen = ({route}) => {
           descripcion: descripcion,
           direccion: selectedPosition,
         });
-
-        console.log('Reporte enviado:', { tipo, fecha: fechaString, descripcion, direccion: selectedPosition });
-        navigation.goBack();
+  
+         // Mostrar alerta de éxito
+         const alertMessage = 'Tu reporte ha sido creado exitosamente.';
+         const alertTitle = 'Reporte enviado';
+ 
+         if (Platform.OS === 'web') {
+           window.alert(alertMessage);
+           navigation.goBack(); // Ir hacia atrás después de la alerta
+         } else {
+           Alert.alert(alertTitle, alertMessage, [
+             {
+               text: 'OK',
+               onPress: () => navigation.goBack(),
+             },
+           ]);
+         }
+  
       } catch (err) {
         console.error('Error al enviar el reporte:', err);
         setError('Error al enviar el reporte. Intenta nuevamente.');
@@ -88,7 +99,6 @@ const ReportarScreen = ({route}) => {
       setError('Todos los campos son obligatorios.');
     }
   };
-
   // Obtener la fecha actual en formato dd/mm/yyyy
   const obtenerFechaActual = () => {
     const currentDate = new Date();
