@@ -1,32 +1,26 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Alert ,Platform } from 'react-native';
-import {Picker} from '@react-native-picker/picker'
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Text, TouchableOpacity, Alert, Platform } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import MapView, { Marker } from 'react-native-maps';  // Importa MapView de react-native-maps
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import styles from './ReportarScreenStyles'; // Importamos los estilos
-
 
 // Configuración de Firestore
 const db = getFirestore(appFirebase);
 
-// Estilos del mapa
-const containerStyle = {
-  width: '100%',
-  height: 500, // Aumenta la altura del mapa
-};
-
 // Coordenadas iniciales de Buga, Valle del Cauca
-const center = {
-  lat: 3.90223,
-  lng: -76.29731,
+const initialRegion = {
+  latitude: 3.90223,
+  longitude: -76.29731,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
 };
 
-const ReportarScreen = ({route}) => {
-
-  const {userData} = route.params
+const ReportarScreen = ({ route }) => {
+  const { userData } = route.params;
   const navigation = useNavigation();
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [tipo, setTipo] = useState('');
@@ -35,10 +29,10 @@ const ReportarScreen = ({route}) => {
   const [error, setError] = useState('');
 
   // Manejar clic en el mapa para seleccionar la ubicación
-  const onMapClick = (event) => {
+  const onMapPress = (event) => {
     setSelectedPosition({
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng(),
+      latitude: event.nativeEvent.coordinate.latitude,
+      longitude: event.nativeEvent.coordinate.longitude,
     });
   };
 
@@ -48,8 +42,8 @@ const ReportarScreen = ({route}) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setSelectedPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
           });
         },
         (error) => {
@@ -75,23 +69,23 @@ const ReportarScreen = ({route}) => {
           descripcion: descripcion,
           direccion: selectedPosition,
         });
-  
-         // Mostrar alerta de éxito
-         const alertMessage = 'Tu reporte ha sido creado exitosamente.';
-         const alertTitle = 'Reporte enviado';
- 
-         if (Platform.OS === 'web') {
-           window.alert(alertMessage);
-           navigation.goBack(); 
-         } else {
-           Alert.alert(alertTitle, alertMessage, [
-             {
-               text: 'OK',
-               onPress: () => navigation.goBack(),
-             },
-           ]);
-         }
-  
+
+        // Mostrar alerta de éxito
+        const alertMessage = 'Tu reporte ha sido creado exitosamente.';
+        const alertTitle = 'Reporte enviado';
+
+        if (Platform.OS === 'web') {
+          window.alert(alertMessage);
+          navigation.goBack();
+        } else {
+          Alert.alert(alertTitle, alertMessage, [
+            {
+              text: 'OK',
+              onPress: () => navigation.goBack(),
+            },
+          ]);
+        }
+
       } catch (err) {
         console.error('Error al enviar el reporte:', err);
         setError('Error al enviar el reporte. Intenta nuevamente.');
@@ -100,6 +94,7 @@ const ReportarScreen = ({route}) => {
       setError('Todos los campos son obligatorios.');
     }
   };
+
   // Obtener la fecha actual en formato dd/mm/yyyy
   const obtenerFechaActual = () => {
     const currentDate = new Date();
@@ -109,8 +104,7 @@ const ReportarScreen = ({route}) => {
     return `${day}/${month}/${year}`;
   };
 
-  
-  React.useEffect(() => {
+  useEffect(() => {
     setFechaString(obtenerFechaActual());
   }, []);
 
@@ -118,8 +112,6 @@ const ReportarScreen = ({route}) => {
     <Layout>
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
           <View style={styles.row}>
             <View style={styles.column}>
               <Text style={styles.label}>Tipo de incidente:</Text>
@@ -148,19 +140,18 @@ const ReportarScreen = ({route}) => {
           </View>
 
           {/* Mapa para seleccionar la ubicación */}
-          <LoadScript googleMapsApiKey="AIzaSyCnbFMm2M_fYhtAM0YfsQh4p0AKs_Z0LRs">
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={selectedPosition || center}
-              zoom={12}
-              onClick={onMapClick}
-            >
-              {selectedPosition && <Marker position={selectedPosition} />}
-            </GoogleMap>
-          </LoadScript>
+          <MapView
+            style={{ width: '100%', height: 500 }}  // Aumenta la altura del mapa
+            initialRegion={initialRegion}
+            onPress={onMapPress}
+          >
+            {selectedPosition && (
+              <Marker coordinate={selectedPosition} />
+            )}
+          </MapView>
 
           {selectedPosition ? (
-            <Text style={{ marginBottom: 15 }}>Ubicación seleccionada: {`Lat: ${selectedPosition.lat}, Lng: ${selectedPosition.lng}`}</Text>
+            <Text style={{ marginBottom: 15 }}>Ubicación seleccionada: {`Lat: ${selectedPosition.latitude}, Lng: ${selectedPosition.longitude}`}</Text>
           ) : (
             <Text style={{ marginBottom: 15 }}>Haz clic en el mapa para seleccionar una ubicación.</Text>
           )}
@@ -170,7 +161,7 @@ const ReportarScreen = ({route}) => {
             placeholder="Descripción del incidente"
             value={descripcion}
             onChangeText={setDescripcion}
-            multiline={true} 
+            multiline={true}
           />
 
           <View style={styles.buttonRow}>

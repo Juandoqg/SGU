@@ -103,6 +103,12 @@ const styles = StyleSheet.create({
     color: '#fff', // Color del texto del botón Guardar
     fontWeight: 'bold',
   },
+  name: {
+  fontSize: 20,
+  fontWeight: 'bold', // Asegúrate de que este estilo esté presente
+  marginVertical: 10,
+  color: '#333', // Puedes cambiar el color si lo deseas
+}
 });
 
 export default styles;
