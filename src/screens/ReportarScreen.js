@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Picker , Alert ,Platform } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Alert ,Platform } from 'react-native';
+import {Picker} from '@react-native-picker/picker'
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';

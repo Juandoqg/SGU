@@ -59,7 +59,6 @@ const HomeScreen = () => {
             secureTextEntry
             onSubmitEditing={handleLogin}
           />
-          {error ? <Text style={styles.errorText}>{error}</Text> : null} {/* Asegúrate de que el estilo se defina */}
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
