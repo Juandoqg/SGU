@@ -3,6 +3,7 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import appFirebase from '../../credenciales';
 import styles from './EstadoReporteScreenStyles';
+import Layout from '../components/Layout';
 
 const EstadoReporteScreen = ({ route }) => {
   const { userData } = route.params;
@@ -50,6 +51,7 @@ const EstadoReporteScreen = ({ route }) => {
   }
 
   return (
+    <Layout>
     <View style={styles.container}>
       <FlatList
         data={reportes}
@@ -67,6 +69,7 @@ const EstadoReporteScreen = ({ route }) => {
         contentContainerStyle={styles.list}
       />
     </View>
+    </Layout>
   );
 };
 
