@@ -66,7 +66,7 @@ const SecondScreen = ({route}) => {
       <Icon name="info-circle" size={30} color="#000" style={styles.cardIcon} />
       <Text style={styles.cardTitle}>Info</Text>
       <Text style={styles.cardText}>Información adicional sobre el sistema.</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('InfoScreen', {userData})}>
+      <TouchableOpacity style={styles.cardButton} onPress={() => handlePressOption('InfoAdicionalScreen', {userData})}>
         <Text style={styles.cardButtonText}>Seleccionar</Text>
       </TouchableOpacity>
     </View>

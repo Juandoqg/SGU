@@ -81,7 +81,7 @@ const ReportarScreen = ({route}) => {
  
          if (Platform.OS === 'web') {
            window.alert(alertMessage);
-           navigation.goBack(); // Ir hacia atrás después de la alerta
+           navigation.goBack(); 
          } else {
            Alert.alert(alertTitle, alertMessage, [
              {
@@ -169,10 +169,9 @@ const ReportarScreen = ({route}) => {
             placeholder="Descripción del incidente"
             value={descripcion}
             onChangeText={setDescripcion}
-            multiline={true} // Permite que el texto se expanda verticalmente
+            multiline={true} 
           />
 
-          {/* Botones alineados horizontalmente */}
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.smallButton} onPress={getUserLocation}>
               <Text style={styles.buttonText}>Usar mi ubicación</Text>
