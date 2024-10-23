@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
-import styles from './SignInScreenStyles'; // Importa los estilos desde el archivo
+import styles from './SignInScreenStyles';
 import appFirebase from '../../credenciales';
-import { getFirestore, getDoc, doc } from 'firebase/firestore'; // Importar funciones de Firestore
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Importar funciones de autenticación
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const db = getFirestore(appFirebase);
 const auth = getAuth(appFirebase);
@@ -14,23 +14,19 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // Estado para manejar errores
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     try {
-      // Iniciar sesión con email y contraseña
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
-      console.log('Usuario autenticado:', user.uid); // Muestra el UID del usuario autenticado
-  
-      // Verificar si el usuario existe en Firestore
-      const userDoc = await getDoc(doc(db, 'usuarios', user.uid)); // Asegúrate de que estés usando el UID correcto
+
+      console.log('Usuario autenticado:', user.uid);
+
+      const userDoc = await getDoc(doc(db, 'usuarios', user.uid));
       if (userDoc.exists()) {
         console.log('Datos del usuario:', userDoc.data());
-
-  
-        const userData = userDoc.data()
+        const userData = userDoc.data();
         navigation.navigate('SecondScreen', { userData });
       } else {
         console.log('No se encontró el documento del usuario en Firestore');
@@ -38,10 +34,9 @@ const HomeScreen = () => {
       }
     } catch (err) {
       console.error('Error al iniciar sesión:', err);
-      setError('Email o contraseña incorrectos. Intenta nuevamente.'); // Manejar error
+      setError('Email o contraseña incorrectos. Intenta nuevamente.');
     }
   };
-  
 
   return (
     <Layout>
@@ -53,8 +48,8 @@ const HomeScreen = () => {
             value={email}
             onChangeText={setEmail}
             inputMode="email-address"
-            autoCapitalize="none" // No capitalizar el email
-            onSubmitEditing={() => handleLogin()} // Iniciar sesión al presionar Enter
+            autoCapitalize="none"
+            onSubmitEditing={handleLogin}
           />
           <TextInput
             style={styles.input}
@@ -62,9 +57,9 @@ const HomeScreen = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            onSubmitEditing={() => handleLogin()} // Iniciar sesión al presionar Enter
+            onSubmitEditing={handleLogin}
           />
-          {error ? <Text style={{ color: 'red' }}>{error}</Text> : null} {/* Mostrar mensaje de error */}
+          {error ? <Text style={styles.errorText}>{error}</Text> : null} {/* Asegúrate de que el estilo se defina */}
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>

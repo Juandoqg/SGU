@@ -46,6 +46,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textDecorationLine: 'underline', // Para que parezca un enlace
   },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+  },
+  
 });
 
 export default styles;
