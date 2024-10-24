@@ -1,5 +1,3 @@
-
-
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -17,41 +15,58 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'red',
     marginTop: 20,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   list: {
     paddingBottom: 20,
   },
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: 15,
-    marginVertical: 8,
+    borderRadius: 12,
+    padding: 20,
+    marginVertical: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3, // Para Android
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
   },
   tipo: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
     color: '#6200ea',
+    marginBottom: 8,
   },
   descripcion: {
-    marginTop: 5,
-    fontSize: 14,
+    fontSize: 16,
     color: '#333',
+    marginBottom: 8,
   },
   fecha: {
-    marginTop: 5,
-    fontSize: 12,
+    fontSize: 14,
     color: '#888',
+    marginBottom: 4,
   },
   ubicacion: {
-    marginTop: 5,
-    fontSize: 12,
+    fontSize: 14,
     color: '#888',
   },
+  // Estilo del botón "Volver"
+  backButton: {
+    backgroundColor: '#b424b4',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 20,  // Espaciado debajo del botón
+  },
+  backButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
 });
-  
-  export default styles;
+
+export default styles;

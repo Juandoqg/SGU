@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import { useNavigation } from '@react-navigation/native';  // Importa useNavigation
 import appFirebase from '../../credenciales';
 import styles from './EstadoReporteScreenStyles';
 import Layout from '../components/Layout';
@@ -10,6 +11,7 @@ const EstadoReporteScreen = ({ route }) => {
   const [reportes, setReportes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigation = useNavigation();  // Hook para la navegación
 
   const getReportesDeUsuario = async (uid) => {
     const db = getFirestore(appFirebase);
@@ -52,23 +54,28 @@ const EstadoReporteScreen = ({ route }) => {
 
   return (
     <Layout>
-    <View style={styles.container}>
-      <FlatList
-        data={reportes}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.tipo}>{item.tipo}</Text>
-            <Text style={styles.descripcion}>{item.descripcion}</Text>
-            <Text style={styles.fecha}>{item.fecha}</Text>
-            <Text style={styles.ubicacion}>
-              {`Ubicación: Lat ${item.direccion.lat}, Lng ${item.direccion.lng}`}
-            </Text>
-          </View>
-        )}
-        contentContainerStyle={styles.list}
-      />
-    </View>
+      <View style={styles.container}>
+        {/* Botón de Volver */}
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.backButtonText}>Volver</Text>
+        </TouchableOpacity>
+
+        <FlatList
+          data={reportes}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text style={styles.tipo}>{item.tipo}</Text>
+              <Text style={styles.descripcion}>{item.descripcion}</Text>
+              <Text style={styles.fecha}>{item.fecha}</Text>
+              <Text style={styles.ubicacion}>
+                {`Ubicación: Lat ${item.direccion.lat}, Lng ${item.direccion.lng}`}
+              </Text>
+            </View>
+          )}
+          contentContainerStyle={styles.list}
+        />
+      </View>
     </Layout>
   );
 };
