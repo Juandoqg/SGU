@@ -69,7 +69,7 @@ const EstadoReporteScreen = ({ route }) => {
               <Text style={styles.descripcion}>{item.descripcion}</Text>
               <Text style={styles.fecha}>{item.fecha}</Text>
               <Text style={styles.ubicacion}>
-                {`Ubicación: Lat ${item.direccion.lat}, Lng ${item.direccion.lng}`}
+                {`Ubicación: Lat ${item.direccion.latitude}, Lng ${item.direccion.longitude}`}
               </Text>
             </View>
           )}

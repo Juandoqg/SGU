@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Alert, Platform } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Alert, Platform, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import MapView, { Marker } from 'react-native-maps';  // Importa MapView de react-native-maps
+import MapView, { Marker } from 'react-native-maps';  
 import Layout from '../components/Layout';
 import { useNavigation } from '@react-navigation/native';
 import appFirebase from '../../credenciales';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import styles from './ReportarScreenStyles'; // Importamos los estilos
+import styles from './ReportarScreenStyles'; 
 
-// Configuración de Firestore
 const db = getFirestore(appFirebase);
 
-// Coordenadas iniciales de Buga, Valle del Cauca
 const initialRegion = {
   latitude: 3.90223,
   longitude: -76.29731,
@@ -28,7 +26,6 @@ const ReportarScreen = ({ route }) => {
   const [descripcion, setDescripcion] = useState('');
   const [error, setError] = useState('');
 
-  // Manejar clic en el mapa para seleccionar la ubicación
   const onMapPress = (event) => {
     setSelectedPosition({
       latitude: event.nativeEvent.coordinate.latitude,
@@ -36,7 +33,6 @@ const ReportarScreen = ({ route }) => {
     });
   };
 
-  // Obtener la ubicación del usuario usando la API de geolocalización del navegador
   const getUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -58,7 +54,6 @@ const ReportarScreen = ({ route }) => {
   const handleReportar = async () => {
     if (tipo && fechaString && descripcion && selectedPosition) {
       try {
-        // Almacenar el reporte en Firestore
         await addDoc(collection(db, 'reportes'), {
           uid: userData.uid,
           displayName: userData.displayName,
@@ -70,7 +65,6 @@ const ReportarScreen = ({ route }) => {
           direccion: selectedPosition,
         });
 
-        // Mostrar alerta de éxito
         const alertMessage = 'Tu reporte ha sido creado exitosamente.';
         const alertTitle = 'Reporte enviado';
 
@@ -85,7 +79,6 @@ const ReportarScreen = ({ route }) => {
             },
           ]);
         }
-
       } catch (err) {
         console.error('Error al enviar el reporte:', err);
         setError('Error al enviar el reporte. Intenta nuevamente.');
@@ -95,11 +88,10 @@ const ReportarScreen = ({ route }) => {
     }
   };
 
-  // Obtener la fecha actual en formato dd/mm/yyyy
   const obtenerFechaActual = () => {
     const currentDate = new Date();
     const day = String(currentDate.getDate()).padStart(2, '0');
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Los meses son de 0-11
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const year = currentDate.getFullYear();
     return `${day}/${month}/${year}`;
   };
@@ -110,78 +102,82 @@ const ReportarScreen = ({ route }) => {
 
   return (
     <Layout>
-      <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <Text style={styles.label}>Tipo de incidente:</Text>
-              <Picker
-                selectedValue={tipo}
-                style={styles.input}
-                onValueChange={(itemValue) => setTipo(itemValue)}
-              >
-                <Picker.Item label="Seleccionar tipo" value="" />
-                <Picker.Item label="Infraestructura" value="Infraestructura" />
-                <Picker.Item label="Seguridad" value="Seguridad" />
-                <Picker.Item label="Tráfico" value="Tráfico" />
-                <Picker.Item label="Basura" value="Basura" />
-                <Picker.Item label="Vandalismo" value="Vandalismo" />
-              </Picker>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <View style={styles.formContainer}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <Text style={styles.label}>Tipo de incidente:</Text>
+                <Picker
+                  selectedValue={tipo}
+                  style={styles.input}
+                  onValueChange={(itemValue) => setTipo(itemValue)}
+                >
+                  <Picker.Item label="Seleccionar tipo" value="" />
+                  <Picker.Item label="Infraestructura" value="Infraestructura" />
+                  <Picker.Item label="Seguridad" value="Seguridad" />
+                  <Picker.Item label="Tráfico" value="Tráfico" />
+                  <Picker.Item label="Basura" value="Basura" />
+                  <Picker.Item label="Vandalismo" value="Vandalismo" />
+                </Picker>
+              </View>
+
+              <View style={styles.column}>
+                <Text style={styles.label}>Fecha:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={fechaString}
+                  editable={false}
+                />
+              </View>
             </View>
 
-            <View style={styles.column}>
-              <Text style={styles.label}>Fecha:</Text>
-              <TextInput
-                style={styles.input}
-                value={fechaString}
-                editable={false}
-              />
-            </View>
-          </View>
+            <MapView
+              style={{ width: '100%', height: 500 }} 
+              initialRegion={initialRegion}
+              onPress={onMapPress}
+            >
+              {selectedPosition && (
+                <Marker coordinate={selectedPosition} />
+              )}
+            </MapView>
 
-          {/* Mapa para seleccionar la ubicación */}
-          <MapView
-            style={{ width: '100%', height: 500 }}  // Aumenta la altura del mapa
-            initialRegion={initialRegion}
-            onPress={onMapPress}
-          >
-            {selectedPosition && (
-              <Marker coordinate={selectedPosition} />
+            {selectedPosition ? (
+              <Text style={{ marginBottom: 15 }}>
+                Ubicación seleccionada: 
+                <Text>{` Lat: ${selectedPosition.latitude}, Lng: ${selectedPosition.longitude}`}</Text>
+              </Text>
+            ) : (
+              <Text style={{ marginBottom: 15 }}>Haz clic en el mapa para seleccionar una ubicación.</Text>
             )}
-          </MapView>
 
-          {selectedPosition ? (
-            <Text style={{ marginBottom: 15 }}>Ubicación seleccionada: {`Lat: ${selectedPosition.latitude}, Lng: ${selectedPosition.longitude}`}</Text>
-          ) : (
-            <Text style={{ marginBottom: 15 }}>Haz clic en el mapa para seleccionar una ubicación.</Text>
-          )}
+            <TextInput
+              style={styles.input}
+              placeholder="Descripción del incidente"
+              value={descripcion}
+              onChangeText={setDescripcion}
+              multiline={true}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Descripción del incidente"
-            value={descripcion}
-            onChangeText={setDescripcion}
-            multiline={true}
-          />
+            <View style={styles.buttonRow}>
+              <TouchableOpacity style={styles.smallButton} onPress={getUserLocation}>
+                <Text style={styles.buttonText}>Usar mi ubicación</Text>
+              </TouchableOpacity>
 
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.smallButton} onPress={getUserLocation}>
-              <Text style={styles.buttonText}>Usar mi ubicación</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.smallButton} onPress={handleReportar}>
+                <Text style={styles.buttonText}>Enviar Reporte</Text>
+              </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity style={styles.smallButton} onPress={handleReportar}>
-              <Text style={styles.buttonText}>Enviar Reporte</Text>
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Text style={styles.buttonText}>Volver</Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.buttonText}>Volver</Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 };
